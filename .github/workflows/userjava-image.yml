@@ -1,8 +1,10 @@
-name: Docker Image CI
+name: BUILD AND DEPLOY USERJAVA
 
 on:
   push:
     branches: [ main ]
+    paths:
+        - apis/user-java/*
 
 jobs:
 

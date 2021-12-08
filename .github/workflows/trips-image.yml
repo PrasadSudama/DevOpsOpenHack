@@ -1,8 +1,10 @@
-name: Docker Image CI
+name: BUILD AND DEPLOY TRIPS
 
 on:
   push:
     branches: [ main ]
+    paths:
+        - apis/trips/*
   
 jobs:
 
