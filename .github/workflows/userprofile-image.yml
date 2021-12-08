@@ -1,8 +1,10 @@
-name: Docker Image CI
+name: BUILD AND DEPLOY USERPROFILE
 
 on:
   push:
     branches: [ main ]
+    paths:
+        - apis/userprofile/*
  
 jobs:
 
