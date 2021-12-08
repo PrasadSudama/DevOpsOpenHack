@@ -3,10 +3,7 @@ name: Docker Image CI
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
-    
-
+ 
 jobs:
 
   build:
@@ -15,12 +12,24 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - uses: azure/docker-login@v1 
+    - uses: azure/docker-login@v1
       with: 
         login-server: openhackgr65e605acr.azurecr.io
         username: ${{ secrets.ACR_USERNAME }} 
         password: ${{ secrets.ACR_PASSWORD }} 
+        
     - run: |
             cd ${{ github.workspace }}/apis/poi/web
             docker build . -t openhackgr65e605acr.azurecr.io/devopsoh/api-poi:${{ github.sha }} 
             docker push openhackgr65e605acr.azurecr.io/devopsoh/api-poi:${{ github.sha }}
+  deploy:
+    needs:
+    - build
+    runs-on: ubuntu-latest
+    if: ${{success() && github.ref == 'refs/heads/main'}}
+    steps:
+    - uses: azure/webapps-deploy@v2
+      with:
+          app-name: 'poi_app'
+          publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+          images: 'openhackgr65e605acr.azurecr.io/devopsoh/api-poi:${{ github.sha }}'
