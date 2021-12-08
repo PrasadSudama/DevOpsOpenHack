@@ -30,6 +30,6 @@ jobs:
     steps:
     - uses: azure/webapps-deploy@v2
       with:
-          app-name: 'poi_app'
+          app-name: 'openhackgr65e605poi'
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
           images: 'openhackgr65e605acr.azurecr.io/devopsoh/api-poi:${{ github.sha }}'
