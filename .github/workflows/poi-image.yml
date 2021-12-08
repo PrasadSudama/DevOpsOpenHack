@@ -1,8 +1,11 @@
-name: Docker Image CI
+name: BUILD AND DEPLOY POI
 
 on:
   push:
     branches: [ main ]
+  paths:
+    include:
+    - apis/poi/* 
  
 jobs:
 
