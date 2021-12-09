@@ -1,3 +1,4 @@
+---
 name: BUILD AND DEPLOY POI
 
 on:
@@ -7,19 +8,15 @@ on:
         - 'apis/poi/**' 
  
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@v2
     - uses: azure/docker-login@v1
       with: 
         login-server: openhackgr65e605acr.azurecr.io
         username: ${{ secrets.ACR_USERNAME }} 
-        password: ${{ secrets.ACR_PASSWORD }} 
-        
+        password: ${{ secrets.ACR_PASSWORD }}
     - run: |
             cd ${{ github.workspace }}/apis/poi/web
             docker build . -t openhackgr65e605acr.azurecr.io/devopsoh/api-poi:${{ github.sha }} 
@@ -35,3 +32,11 @@ jobs:
           app-name: 'openhackgr65e605poi'
           publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
           images: 'openhackgr65e605acr.azurecr.io/devopsoh/api-poi:${{ github.sha }}'
+    - run: |
+          $poiResponse = Invoke-RestMethod -Method Get -Uri 'https://openhackgr65e605poi-staging.azurewebsites.net/api/healthcheck/poi'
+          if($poiResponse.status -eq 'Healthy')
+          {
+            az account set -s ${{ secrets.SUB_ID }}
+            az webapp deployment slot swap -g 'openhackgr65e605rg' -n 'openhackgr65e605poi' --slot 'openhackgr65e605poi-staging' --target-slot 'openhackgr65e605poi'
+          }
+      shell: pwsh
