@@ -42,7 +42,11 @@ jobs:
           if($poiResponse.status -eq 'Healthy')
           {
             Install-Module -Name Az.Websites -Scope CurrentUser -AllowClobber -Repository PSGallery -Force
+            Install-Module -Name Az.Accounts -Scope CurrentUser -AllowClobber -Repository PSGallery -Force
             Import-Module -Name Az.Websites
+            Import-Module -Name Az.Accounts
+            Set-AzContext -SubscriptionId ${{ secrets.SUB_ID }}
+            Switch-AzWebAppSlot -SourceSlotName 'openhackgr65e605poi-staging' -DestinationSlotName 'openhackgr65e605poi' -ResourceGroupName 'openhackgr65e605rg' -Name 'openhackgr65e605poi'
             Switch-AzWebAppSlot -SourceSlotName 'openhackgr65e605poi-staging' -DestinationSlotName 'openhackgr65e605poi' -ResourceGroupName 'openhackgr65e605rg' -Name 'openhackgr65e605poi'
           }
           else{
