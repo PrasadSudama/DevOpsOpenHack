@@ -47,7 +47,6 @@ jobs:
             Import-Module -Name Az.Accounts
             Set-AzContext -SubscriptionId ${{ secrets.SUB_ID }}
             Switch-AzWebAppSlot -SourceSlotName 'openhackgr65e605poi-staging' -DestinationSlotName 'openhackgr65e605poi' -ResourceGroupName 'openhackgr65e605rg' -Name 'openhackgr65e605poi'
-            Switch-AzWebAppSlot -SourceSlotName 'openhackgr65e605poi-staging' -DestinationSlotName 'openhackgr65e605poi' -ResourceGroupName 'openhackgr65e605rg' -Name 'openhackgr65e605poi'
           }
           else{
             write-output "API is not healthy and could not be deployed to Production."
