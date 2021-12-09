@@ -95,7 +95,7 @@ namespace poi
             var json = new JObject(
                 new JProperty("message", "POI Service Healthcheck"),
                 new JProperty("status", result.Status.ToString()),
-                new JProperty("version", "v9"));
+                new JProperty("version", "v10"));
 
             return context.Response.WriteAsync(
                 json.ToString(Formatting.Indented));
