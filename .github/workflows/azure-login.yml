@@ -17,6 +17,5 @@ jobs:
       with:
         creds: ${{secrets.AZURE_CREDENTIALS}}
         enable-AzPSSession: true 
-     
-     - run: |
+    - run: |
         get-azwebapp -ResourceGroupName "openhackgr65e605rg"
